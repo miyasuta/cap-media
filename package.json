@@ -17,7 +17,8 @@
   "scripts": {
     "start": "cds run",
     "watch-attachments": "cds watch --open attachments/webapp/index.html#fe-lrop-v4",
-    "watch-ui5-app": "cds watch --open ui5-app/webapp/index.html#fe-lrop-v4"
+    "watch-ui5-app": "cds watch --open ui5-app/webapp/index.html#fe-lrop-v4",
+    "watch-uploadcollection": "cds watch --open uploadcollection/webapp/index.html#fe-lrop-v4"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
@@ -46,7 +47,8 @@
   },
   "sapux": [
     "app/attachments",
-    "app/ui5-app"
+    "app/ui5-app",
+    "app/uploadcollection"
   ],
   "cds": {
     "requires": {

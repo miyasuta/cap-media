@@ -1,54 +1,71 @@
 <mvc:View
-    controllerName="miyasuta.attachments.controller.App"
-    xmlns:mvc="sap.ui.core.mvc"
-    displayBlock="true"
-    xmlns="sap.m"
+	controllerName="miyasuta.attachments.controller.App"
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true"
+	xmlns="sap.m"
 	xmlns:upload="sap.m.upload"
 >
-	<upload:UploadSet
-			id="uploadSet"
-			instantUpload="false"
-			uploadEnabled="true"
-			showIcons="true"
-			beforeItemAdded="onBeforeItemAdded"
-			afterItemAdded="onAfterItemAdded"
-			beforeUploadStarts="onBeforeUploadStarts"
-			uploadCompleted="onUploadCompleted"
-			items="{
-				path: '/Files',
-				parameters: {
-					$orderby: 'createdAt desc'
-				},
-				templateShareable: false}">
-		<upload:toolbar>
-		</upload:toolbar>
-		<upload:items>
-			<upload:UploadSetItem
-					fileName="{fileName}"
-					mediaType="{mediaType}"
-					url="{url}"
-					enabledEdit="false"
-					openPressed="onOpenPressed"
-					removePressed="onRemovePressed">				
-				<upload:attributes>
-					<ObjectAttribute
-							title="Uploaded By"
-							text="{createdBy}"
-							active="false"/>
-					<ObjectAttribute
-							title="Uploaded on"
-							text="{createdAt}"
-							active="false"/>	
-					<ObjectAttribute
-							title="File Type"
-							text="{mediaType}"
-							active="false"/>
-					<ObjectAttribute
-							title="File Size"
-							text="{size}"
-							active="false"/>																					
-				</upload:attributes>
-			</upload:UploadSetItem>
-		</upload:items>
-	</upload:UploadSet>
+	<App id="app">
+		<pages>
+			<Page
+				id="page"
+				title="{i18n>title}"
+			>
+				<upload:UploadSet
+					id="uploadSet"
+					instantUpload="false"
+					uploadEnabled="true"
+					showIcons="true"
+					afterItemAdded="onAfterItemAdded"
+					uploadCompleted="onUploadCompleted"
+					items="{
+								path: '/Files',
+								parameters: {
+									$orderby: 'createdAt desc'
+								},
+								templateShareable: false}"
+				>
+					<upload:toolbar>
+					</upload:toolbar>
+					<upload:items>
+						<upload:UploadSetItem
+							fileName="{fileName}"
+							mediaType="{mediaType}"
+							url="{url}"
+							thumbnailUrl="{
+								path: 'mediaType',
+								formatter: '.formatThumbnailUrl'
+							}"
+							enabledEdit="false"
+							openPressed="onOpenPressed"
+							removePressed="onRemovePressed"
+						>
+							<upload:attributes>
+								<ObjectAttribute
+									title="Uploaded By"
+									text="{createdBy}"
+									active="false"
+								/>
+								<ObjectAttribute
+									title="Uploaded on"
+									text="{createdAt}"
+									active="false"
+								/>
+								<ObjectAttribute
+									title="File Type"
+									text="{mediaType}"
+									active="false"
+								/>
+								<ObjectAttribute
+									title="File Size"
+									text="{size}"
+									active="false"
+								/>
+							</upload:attributes>
+						</upload:UploadSetItem>
+					</upload:items>
+				</upload:UploadSet>
+			</Page>
+		</pages>
+	</App>
 </mvc:View>
