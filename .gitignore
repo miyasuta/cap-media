@@ -6,6 +6,7 @@ default-*.json
 gen/
 node_modules/
 target/
+app/ui5-app/
 
 # Web IDE, App Studio
 .che/
