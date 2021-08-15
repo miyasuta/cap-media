@@ -1,19 +1,21 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"sap/ui/model/json/JSONModel"
+	"sap/ui/model/json/JSONModel",
+	"sap/ui/core/Item",
+	"sap/m/MessageToast"
 ],
 	/**
 	 * @param {typeof sap.ui.core.mvc.Controller} Controller
 	 */
-	function (Controller, JSONModel) {
+	function (Controller,
+	JSONModel,
+	Item,
+	MessageToast) {
 		"use strict";
 
 		return Controller.extend("miyasuta.attachments.controller.App", {
 			onInit: function () {
 				
-			},
-
-			onBeforeItemAdded: function (oEvent) {					
 			},
 
 			onAfterItemAdded: function (oEvent) {
@@ -27,27 +29,6 @@ sap.ui.define([
 				})
 			},
 
-			onBeforeUploadStarts: function (oEvent) {
-				oEvent.getSource().getDefaultFileUploader().setUseMultipart(true);
-				// var oUploadSet = oEvent.getSource();
-				// oUploadSet.setHttpRequestMethod("PUT");
-				// oUploadSet.getDefaultFileUploader().setUseMultipart(true);
-				// var items = oUploadSet.getIncompleteItems();
-				// var aPromise = [];
-				// for (var i = 0; i < items.length; i++ ) {
-				// 	aPromise.push(this._createEntity(items[i]))
-				// 	this._createEntity(items[i])
-				// }
-
-				// Promise.all(aPromise)
-				// .then((ids) => {
-				// 	for (var i = 0; i < items.length; i++) {						
-				// 		var url = `/attachments/Files(${ids[i]})/content`
-				// 		items[i].setUploadUrl(url);	
-				// 	}
-				// })
-			},
-
 			onUploadCompleted: function (oEvent) {
 				var oUploadSet = this.byId("uploadSet");
 				oUploadSet.removeAllIncompleteItems();
@@ -55,11 +36,23 @@ sap.ui.define([
 			},
 
 			onRemovePressed: function (oEvent) {
-				oEvent.getParameter("item").getBindingContext().delete();		
+				oEvent.preventDefault();
+				oEvent.getParameter("item").getBindingContext().delete();	
+				MessageToast.show("Selected file has been deleted");
+			},
+
+			onOpenPressed: function (oEvent) {
+				var item = oEvent.getSource();
+				//this doesn't work
+				if (item.getHeaderFields().length === 0) {
+					item.addHeaderField(new Item({
+						key: "Content-Type",
+						text: "application/octet-stream"
+					}));
+				}
 			},
 
 			_createEntity: function (item) {
-				return new Promise((resolve, reject) => {
 					var data = {
 						mediaType: item.getMediaType(),
 						fileName: item.getFileName(),
@@ -75,6 +68,7 @@ sap.ui.define([
 						data: JSON.stringify(data)
 					}
 	
+				return new Promise((resolve, reject) => {
 					$.ajax(settings)
 						.done((results, textStatus, request) => {
 							resolve(results.ID);
@@ -91,13 +85,6 @@ sap.ui.define([
 				var oUploadSet = this.byId("uploadSet");
 				oUploadSet.setHttpRequestMethod("PUT")
 				oUploadSet.uploadItem(item);
-			},
-
-			getBaseURL: function () {
-				var appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
-				var appPath = appId.replaceAll(".", "/");
-				var appModulePath = jQuery.sap.getModulePath(appPath);
-				return appModulePath;
-			},  			
+			},			
 		});
 	});

@@ -14,7 +14,12 @@
 			afterItemAdded="onAfterItemAdded"
 			beforeUploadStarts="onBeforeUploadStarts"
 			uploadCompleted="onUploadCompleted"
-			items="{path: '/Files', templateShareable: false}">
+			items="{
+				path: '/Files',
+				parameters: {
+					$orderby: 'createdAt desc'
+				},
+				templateShareable: false}">
 		<upload:toolbar>
 		</upload:toolbar>
 		<upload:items>
@@ -23,7 +28,8 @@
 					mediaType="{mediaType}"
 					url="{url}"
 					enabledEdit="false"
-					removePressed="onRemovePressed">
+					openPressed="onOpenPressed"
+					removePressed="onRemovePressed">				
 				<upload:attributes>
 					<ObjectAttribute
 							title="Uploaded By"
