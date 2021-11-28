@@ -53,8 +53,7 @@
   "cds": {
     "requires": {
       "db": {
-        "kind": "sqlite",
-        "model": "*"
+        "kind": "sql"
       }
     }
   }

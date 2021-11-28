@@ -140,7 +140,7 @@ sap.ui.define([
 						iconUrl = "sap-icon://pdf-attachment";
 						break;
 					default:
-						iconUrl = "";
+						iconUrl = "sap-icon://attachment";
 				}
 				return iconUrl;
 			}
